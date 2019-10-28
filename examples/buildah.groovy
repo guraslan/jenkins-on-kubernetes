@@ -14,7 +14,7 @@ podTemplate(containers: [
                 }
                 stage('Build alpine-helm image') {
                     sh """
-                    buildah bud -f Dockerfile --build-arg VERSION=2.12.0 -t alpine-help:2.12.0 .
+                    buildah bud -f Dockerfile --storage-driver vfs --build-arg VERSION=2.12.0 -t alpine-help:2.12.0 .
                     """
                 }
             }
