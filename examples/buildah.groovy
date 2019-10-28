@@ -7,7 +7,7 @@ podTemplate(containers: [
         stage('Create image with Buildah') {
             git url: 'https://github.com/alpine-docker/helm.git'
             container('buildah') {
-                staged('Install buildah') {
+                stage('Install buildah') {
                     sh """
                     yum -y install buildah
                     """
