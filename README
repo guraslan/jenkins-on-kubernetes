@@ -10,3 +10,9 @@ chmod +x get_helm.sh
 -- Create Tiller ServiceAccount and ClusterRoleBinding
 
 kubectl apply -f setup/helm/rbac.yaml
+
+
+-- Update existing Jenkins deployment
+
+helm upgrade -f values.yaml jenkins stable/jenkins
+
