@@ -16,3 +16,7 @@ kubectl apply -f setup/helm/rbac.yaml
 
 helm upgrade -f values.yaml jenkins stable/jenkins
 
+
+-- Github Webhook integraton via Github Plugin
+
+Create a personal token in Github
