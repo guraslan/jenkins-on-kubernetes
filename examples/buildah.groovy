@@ -1,5 +1,5 @@
 podTemplate(containers: [
-    containerTemplate(name: 'buildah', image: 'buildah:v1.11.3', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'buildah', image: 'quay.io/buildah/stable:v1.11.3', ttyEnabled: true, command: 'cat'),
   ],
   volumes: [
       hostPathVolume(mountPath: '/var/lib/containers', hostPath: '/mnt')
