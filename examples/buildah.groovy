@@ -12,7 +12,7 @@ podTemplate(containers: [
             container('buildah') {
                 stage('Install buildah') {
                     sh """
-                    yum -y install buildah
+                    yum -y install buildah fuse-overlay
                     """
                 }
                 stage('Build alpine-helm image') {
