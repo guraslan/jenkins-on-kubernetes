@@ -10,11 +10,6 @@ podTemplate(containers: [
         stage('Create image with Buildah') {
             git url: 'https://github.com/alpine-docker/helm.git'
             container('buildah') {
-                stage('Install buildah') {
-                    sh """
-                    yum -y install fuse-overlay
-                    """
-                }
                 stage('Build alpine-helm image') {
                     sh """
                     buildah bud -f Dockerfile --build-arg VERSION=2.12.0 -t alpine-help:2.12.0 .

@@ -20,3 +20,10 @@ helm upgrade -f values.yaml jenkins stable/jenkins
 -- Github Webhook integraton via Github Plugin
 
 Create a personal token in Github
+
+
+-- Kubernetes cheatsheat
+
+kubectl run -it --generator=run-pod/v1 fedora --image=fedora:latest /bin/bash
+
+kubectl run -it --generator=run-pod/v1 buildah --image=quay.io/buildah/stable:latest /bin/bash
