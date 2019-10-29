@@ -2,7 +2,7 @@ podTemplate(containers: [
     containerTemplate(name: 'buildah', image: 'quay.io/buildah/stable:v1.11.3', ttyEnabled: true, command: 'cat'),
   ],
   volumes: [
-      hostPathVolume(mountPath: '/var/lib/containers', hostPath: '/var/tmp')
+      hostPathVolume(mountPath: '/var/lib/containers', hostPath: '/var/tmp/jenkinsslave')
   ]) {
 
     node(POD_LABEL) {
@@ -12,7 +12,7 @@ podTemplate(containers: [
             container('buildah') {
                 stage('Build alpine-helm image') {
                     sh """
-                    buildah bud -f Dockerfile --build-arg VERSION=2.12.0 -t alpine-help:2.12.0 .
+                    buildah --log-level debug bud -f Dockerfile --build-arg VERSION=2.12.0 -t alpine-help:2.12.0 .
                     """
                 }
             }
