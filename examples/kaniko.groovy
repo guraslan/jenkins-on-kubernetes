@@ -36,9 +36,9 @@ spec:
 
   node(POD_LABEL) {
     stage('Build with Kaniko') {
-      git 'https://github.com/alpine-docker/helm.git'
+      git 'https://github.com/guraslan/helm.git'
       container('kaniko') {
-        sh '/kaniko/executor --dockerfile=Dockerfile --context=dir://helm --destination=gcr.io/stalwart-topic-257411/alpine-helm:latest'
+        sh '/kaniko/executor --build-arg VERSION=2.15.2 --dockerfile=Dockerfile --context=dir://helm --destination=gcr.io/stalwart-topic-257411/alpine-helm:latest'
       }
     }
   }
