@@ -1,8 +1,8 @@
 pipeline {
   environment {
-      PROJECT=stalwart-topic-257411
-      IMAGE=alpine-helm
-      TAG=0.1
+      PROJECT = 'stalwart-topic-257411'
+      IMAGE = 'alpine-helm'
+      TAG = '0.1'
   }
   agent {
     kubernetes {
