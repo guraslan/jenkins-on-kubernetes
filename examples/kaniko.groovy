@@ -1,7 +1,7 @@
 pipeline {
   environment {
-      PROJECT = 'stalwart-topic-257411'
-      IMAGE = 'alpine-helm'
+      PROJECT = 'guraslan'
+      IMAGE = 'dummy'
       TAG = '0.1'
   }
   agent {
@@ -28,7 +28,7 @@ spec:
     image: gcr.io/kaniko-project/executor:latest
     args: ["--dockerfile=Dockerfile",
             "--context=dir://.",
-            "--destination=gcr.io/$PROJECT/$IMAGE:$TAG"]
+            "--destination=gcr.io/guraslan/dummy:0.1"]
     volumeMounts:
       - name: kaniko-secret
         mountPath: /secret
