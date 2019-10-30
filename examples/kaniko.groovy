@@ -1,31 +1,25 @@
-pipeline {
-  environment {
-      PROJECT = 'guraslan'
-      IMAGE = 'dummy'
-      TAG = '0.1'
-  }
-  agent {
-    kubernetes {
-      defaultContainer 'jnlp'
-      yaml """
+/**
+ * This pipeline will build and deploy a Docker image with Kaniko
+ * https://github.com/GoogleContainerTools/kaniko
+ * without needing a Docker host
+ *
+ * You need to create a jenkins-docker-cfg secret with your docker config
+ * as described in
+ * https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token
+ */
+
+podTemplate(yaml: """
 apiVersion: v1
 kind: Pod
 metadata:
   name: kaniko
 spec:
   containers:
-  - name: maven
-    image: maven:alpine
-    command:
-    - cat
-    tty: true
-  - name: busybox
-    image: busybox
-    command:
-    - cat
-    tty: true
   - name: kaniko
-    image: gcr.io/kaniko-project/executor:latest
+    image: gcr.io/kaniko-project/executor:debug-v0.13.0
+    command:
+      - /busybox/cat
+    tty: true
     args: ["--dockerfile=Dockerfile",
             "--context=dir://.",
             "--destination=gcr.io/guraslan/dummy:0.1"]
@@ -41,17 +35,13 @@ spec:
       secret:
         secretName: kaniko-secret
 """
-    }
-  }
-  stages {
-    stage('Run maven') {
-      steps {
-        container('maven') {
-          sh 'mvn -version'
-        }
-        container('busybox') {
-          sh '/bin/busybox'
-        }
+  ) {
+
+  node(POD_LABEL) {
+    stage('Build with Kaniko') {
+      git 'https://github.com/alpine-docker/helm.git'
+      container('kaniko') {
+        sh '/kaniko/executor --dockerfile=Dockerfile --context=dir://helm --destination=gcr.io/stalwart-topic-257411/alpine-helm:latest'
       }
     }
   }
