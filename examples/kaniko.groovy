@@ -20,9 +20,6 @@ spec:
     command:
       - /busybox/cat
     tty: true
-    args: ["--dockerfile=Dockerfile",
-            "--context=dir://.",
-            "--destination=gcr.io/guraslan/dummy:0.1"]
     volumeMounts:
       - name: kaniko-secret
         mountPath: /secret
