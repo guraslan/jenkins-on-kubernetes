@@ -15,6 +15,11 @@ metadata:
   name: kaniko
 spec:
   containers:
+  - name: golang
+    image: golang:1.8.0
+    command: 
+      - cat
+    tty: true
   - name: kaniko
     image: gcr.io/kaniko-project/executor:debug-v0.13.0
     command:
@@ -35,10 +40,17 @@ spec:
   ) {
 
   node(POD_LABEL) {
-    stage('Build with Kaniko') {
+    stage('Build code') {
+        container('golang') {
+            sh """
+               sleep 100000000
+               """
+        }
+    }
+    stage('Build image') {
       git 'https://github.com/guraslan/helm.git'
       container('kaniko') {
-        sh '/kaniko/executor --build-arg VERSION=2.15.2 --dockerfile=Dockerfile --context=dir://helm --destination=gcr.io/stalwart-topic-257411/alpine-helm:latest'
+        sh '/kaniko/executor --build-arg VERSION=2.15.2 --dockerfile=Dockerfile --context=dir://helm --destination=gcr.io/stalwart-topic-257411/alpine-helm:${BUILD_NO}'
       }
     }
   }
