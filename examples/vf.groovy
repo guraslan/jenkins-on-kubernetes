@@ -11,7 +11,7 @@ spec:
       - cat
     tty: true
   - name: helm
-    image: alpine-helm
+    image: alpine/helm:latest
     command:
       - cat
   - name: maven
