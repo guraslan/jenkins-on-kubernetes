@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kaniko
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug-v0.13.0
+    command:
+      - /busybox/cat
+    tty: true
+    args: ["--dockerfile=Dockerfile",
+            "--context=dir://.",
+            "--destination=gcr.io/guraslan/dummy:0.1"]
+    volumeMounts:
+      - name: kaniko-secret
+        mountPath: /secret
+    env:
+      - name: GOOGLE_APPLICATION_CREDENTIALS
+        value: /secret/kaniko-secret.json
+  restartPolicy: Never
+  volumes:
+    - name: kaniko-secret
+      secret:
+        secretName: kaniko-secret
+
+
+#     securityContext:
+#       capabilities:
+#         add:
+#           - SYS_ADMIN
+#     volumeMounts:
+#        - mountPath: /var/lib/containers
+#          name: containersvol
+# volumes:
+#      - name: containersvol
+#        persistentVolumeClaim:
+#          claimName: buildah-pvc
+#---
+#kind: PersistentVolumeClaim
+#apiVersion: v1
+#metadata:
+#  name: buildah-pvc
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 10Gi

@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: kaniko
+spec:
+ containers:
+   - name: kaniko
+     image: gcr.io/kaniko-project/demo@sha256:10ec035f3e3c40bfbd7ae5151e54e143ecedf880ac2bc45d421828470737deb9
+#     securityContext:
+#       capabilities:
+#         add:
+#           - SYS_ADMIN
+#     volumeMounts:
+#        - mountPath: /var/lib/containers
+#          name: containersvol
+# volumes:
+#      - name: containersvol
+#        persistentVolumeClaim:
+#          claimName: buildah-pvc
+#---
+#kind: PersistentVolumeClaim
+#apiVersion: v1
+#metadata:
+#  name: buildah-pvc
+#spec:
+#  accessModes:
+#    - ReadWriteOnce
+#  resources:
+#    requests:
+#      storage: 10Gi

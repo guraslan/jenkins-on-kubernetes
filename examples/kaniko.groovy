@@ -43,7 +43,8 @@ spec:
     stage('Build code') {
         container('golang') {
             sh """
-               sleep 100000000
+               echo "This happens in the previous job"
+               echo "Next container will download the image from Nexus and build the container image"
                """
         }
     }
