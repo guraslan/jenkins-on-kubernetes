@@ -65,22 +65,22 @@ spec:
         stage('Scan image') {
             container('trivy') {
                 stage('Scan image'){
-                    sh """
+                    sh '''
                     export VERSION=$(curl --silent "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
                     wget https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz
                     tar zxvf trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz
                     ./trivy --exit-code 1 --severity CRITICAL,HIGH,MEDIUM --no-progress --auto-refresh gcr.io/stalwart-topic-257411/alpine-helm:${BUILD_NO}
-                    """
+                    '''
                 }
             }
         }
 
         stage ('Deploy to TEST') {
             container('helm') {
-                sh """
+                sh '''
                 echo "Get config for the environment TEST"
                 helm update --install --namespace test --set-image=gcr.io/stalwart-topic-257411/alpine-helm:${BUILD_NO} vf stable/vf 
-                """
+                '''
             }
         }
 
@@ -98,10 +98,10 @@ spec:
 
         stage ('Deploy to QA') {
             container('helm') {
-                sh """
+                sh '''
                 echo "Get config for the environment QA"
                 helm update --install --namespace staging --set-image=gcr.io/stalwart-topic-257411/alpine-helm:${BUILD_NO} vf stable/vf 
-                """
+                '''
             }
         }
 
@@ -119,10 +119,10 @@ spec:
 
         stage ('Deploy to PROD') {
             container('helm') {
-                sh """
+                sh '''
                 echo "Get config for the environment PROD"
                 helm update --install --namespace prod --set-image=gcr.io/stalwart-topic-257411/alpine-helm:${BUILD_NO} vf stable/vf 
-                """
+                '''
             }
         }
 
